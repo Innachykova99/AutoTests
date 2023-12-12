@@ -1,4 +1,4 @@
-﻿namespace Logger_Practice.Entities
+﻿namespace Logger_Practice.ErrorHandling
 {
     class CriticalErrorException : Exception
     {

@@ -1,19 +1,17 @@
-﻿using Logger_Practice.Entities;
-
-namespace Logger_practice.Entities
+﻿using Logger_Practice.ErrorHandling;
+namespace Logger_practice.ErrorHandling
 {
     class Program
     {
         static void Main()
         {
             string logFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogFileHere", "LogFile.log");
-            logprocessor processor = new logprocessor(logFileName);
-            processor.ProcessLogs();
-
-            string filePath = @"C:\Users\chiko\Logs_Practice\Logger_Practice\LogFileHere\LogFile.log";
-            if (File.Exists(filePath))
+            
+            if (File.Exists(logFileName))
             {
-                using (var sr = new StreamReader(filePath))
+                LogProcessor processor = new LogProcessor(logFileName);
+                processor.ProcessLogs();
+                using (var sr = new StreamReader(logFileName))
                 {
                     string fileContent = sr.ReadToEnd();
                     Console.WriteLine(fileContent);

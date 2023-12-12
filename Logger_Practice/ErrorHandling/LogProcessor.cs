@@ -1,14 +1,14 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Logger_Practice.Entities
+namespace Logger_Practice.ErrorHandling
 {
-    class logprocessor
+    class LogProcessor
     {
         string filePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LogFileHere", "LogFile.log"));
         protected string logFileName;
 
-        public logprocessor(string fileName)
+        public LogProcessor(string fileName)
         {
             logFileName = fileName;
         }
@@ -30,11 +30,11 @@ namespace Logger_Practice.Entities
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine("File not found error");
+                Console.WriteLine($"File not found error {ex.Message}");
             }
             catch (DivideByZeroException ex)
             {
-                Console.WriteLine("Divide by zero error");
+                Console.WriteLine($"Divide by zero error {ex.Message}")  ;
             }
             catch (CriticalErrorException ex)
             {
@@ -70,36 +70,18 @@ namespace Logger_Practice.Entities
                 if (Regex.IsMatch(line, @"\bERROR\b", RegexOptions.IgnoreCase))
                 {
                     errorLines.Add(line);
-                    if (line.ToUpper().Contains("CRITICAL ERROR"))
-                    {
-                        Console.WriteLine($"CRITICAL ERROR: {line}");
-                        // throw new CriticalErrorException(line); 
-                    }
+                }
+                if (line.ToUpper().Contains("CRITICAL ERROR"))
+                {
+                    Console.WriteLine($"CRITICAL ERROR: {line}");
                 }
             }
 
+            ProcessErrors(errorLines);
             return errorLines;
         }
 
         private void ProcessErrors(List<string> errorLines)
-        {
-            string errorsLogFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "errors");
-
-            if (!Directory.Exists(errorsLogFolderPath))
-            {
-                Directory.CreateDirectory(errorsLogFolderPath);
-            }
-
-            string errorsLogFilePath = Path.Combine(errorsLogFolderPath, "errors.log");
-
-            foreach (string error in errorLines)
-            {
-                Console.WriteLine(error);
-                File.AppendAllText(errorsLogFilePath, error + Environment.NewLine);
-            }
-        }
-
-        private void ProcessErrorsNew(List<string> errorLines)
         {
             {
                 File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "errors.log"), string.Empty);
@@ -111,7 +93,6 @@ namespace Logger_Practice.Entities
                 }
                 sw.Dispose();
             }
-
             
         }
     }
