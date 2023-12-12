@@ -23,7 +23,6 @@ namespace Logger_Practice.Entities
                 {
                     Console.WriteLine(errorLine);
                 }
-                // ProcessErrorsNew(errorLines);
 
                 float ratio = CalculateRatio(logContent.Length, errorLines.Count);
                 DisplayRatio(ratio);
@@ -32,17 +31,14 @@ namespace Logger_Practice.Entities
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine("File not found error");
-
             }
             catch (DivideByZeroException ex)
             {
-                //Console.WriteLine("Divide by zero error");
-                throw ex;
+                Console.WriteLine("Divide by zero error");
             }
             catch (CriticalErrorException ex)
             {
-                //Console.WriteLine($"CRITICAL ERROR: {ex.Message}");
-                throw ex;
+                Console.WriteLine($"CRITICAL ERROR: {ex.Message}");
             }
             catch (Exception ex)
             {
