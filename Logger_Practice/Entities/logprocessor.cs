@@ -51,6 +51,19 @@ namespace Logger_Practice.Entities
 
             return 0;
         }
+        private float CalculateRatio(int totalRecords, int errorRecords)
+        {
+            if (errorRecords == 0)
+            {
+                return float.PositiveInfinity;
+            }
+            return (float)totalRecords / errorRecords;
+        }
+
+        private void DisplayRatio(float ratio)
+        {
+            Console.WriteLine($"Ratio of total records to error records: {ratio}");
+        }
 
         private List<string> FindErrorLines(string[] logContent)
         {
@@ -103,19 +116,7 @@ namespace Logger_Practice.Entities
                 sw.Dispose();
             }
 
-            private float CalculateRatio(int totalRecords, int errorRecords)
-            {
-                if (errorRecords == 0)
-                {
-                    return float.PositiveInfinity;
-                }
-                return (float)totalRecords / errorRecords;
-            }
-
-            private void DisplayRatio(float ratio)
-            {
-                Console.WriteLine($"Ratio of total records to error records: {ratio}");
-            }
+            
         }
     }
 }
